@@ -39,7 +39,6 @@ OBJECT_SAMPLE obj = {
 
 /* ================= main() =================== */
 int main(void) {
-	printf("hi_2\n");
 	srand((unsigned int)time(NULL));
 
 	init();
