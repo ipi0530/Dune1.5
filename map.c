@@ -41,3 +41,12 @@ struct { //스파이스
 	int color_num;
 	int much;
 } SPICE;
+
+typedef
+struct {
+	char massage_1[35];
+	char massage_2[35];
+	char massage_3[35];
+	char massage_4[35];
+	char massage_5[35];
+} MESSAGE;

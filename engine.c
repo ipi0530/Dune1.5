@@ -1,3 +1,8 @@
+//1번  준비 내 화면 배치, 하위함수 작성 및 초기상태 표시 완료
+// 건물들의 구조체 생성 O 명령어 작성 X
+// 스페이스바 선택시 지형 상태 표시는 O, 명령 표시 Xㅠㅠ
+
+
 #include <stdlib.h>
 #include <time.h>
 #include <assert.h>
@@ -11,6 +16,8 @@ void outro(void);
 void cursor_move(DIRECTION dir);
 void sample_obj_move(void);
 POSITION sample_obj_next_position(void);
+
+void where(CURSOR cursor, char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]);
 
 
 /* ================= control =================== */
@@ -56,10 +63,13 @@ int main(void) {
 		else {
 			// 방향키 외의 입력
 			switch (key) {
+			case k_space_bar: 
+				where(cursor, map);
+				break;
 			case k_quit: outro();
 			case k_none:
 			case k_undef:
-			default: break;
+			default: break; 
 			}
 		}
 
@@ -181,4 +191,30 @@ void sample_obj_move(void) {
 	map[1][obj.pos.row][obj.pos.column] = obj.repr;
 
 	obj.next_move_time = sys_clock + obj.speed;
+}
+
+void where(CURSOR cursor, char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]) {
+	int where_row;
+	int where_column;
+	POSITION pos = {2, 60};
+	gotoxy(pos);
+
+	where_row = cursor.current.row;
+	where_column = cursor.current.column;
+	//빈지형일 경우
+	if (map[0][where_row][where_column] == ' ') {
+		printf("현재 지형 : 사막");
+	}
+	
+	if (map[0][where_row][where_column] == 'B') {
+		printf("현재 지형 : 본부");
+	}
+
+	if (map[0][where_row][where_column] == 'R') {
+		printf("현재 지형 : 돌 ");
+	}
+
+	if (map[0][where_row][where_column] == 'P') {
+		printf("현재 지형 : 장판");
+	}
 }
