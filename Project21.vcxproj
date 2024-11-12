@@ -130,7 +130,9 @@
     <ClCompile Include="display.c" />
     <ClCompile Include="engine.c" />
     <ClCompile Include="io.c" />
-    <ClCompile Include="map.c" />
+    <ClCompile Include="map.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />

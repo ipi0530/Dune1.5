@@ -4,7 +4,6 @@
 #include "common.h"
 #include "io.h"
 #include "display.h"
-#include "map.c"
 
 void init(void);
 void intro(void);

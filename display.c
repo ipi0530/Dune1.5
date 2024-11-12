@@ -20,9 +20,46 @@ char frontbuf[MAP_HEIGHT][MAP_WIDTH] = { 0 };
 char colorbuf[MAP_HEIGHT][MAP_WIDTH] = { 0 };
 
 
+//초기 건물 + 유닛
+//player
+OBJECT player_B = {'B', 17, 50, 0};
+UNIT  player_H = {'H', 9, 5, 5, 2000, 0, 0, 70, 0};
+
+//AI
+OBJECT  AI_B = {'B', 68, 50, 0};
+UNIT  AI_H = {'H', 4, 5, 5, 2000, 0, 0, 70, 0};
+
+//돌
+ROCK rock = {'R', 7};
+
+//장판
+OBJECT plate_1 = {'P', 8, -1, 10};
+OBJECT plate_2 = {'P', 8, -1, 10};
+
+//스파이스
+SPICE spice_1 = {6, 9};
+SPICE spice_2 = {6, 9};
+
+//샌드웜
+SANDWARM sandwarm_1 = {'S', 96, 2500, 10000};
+SANDWARM sandwarm_2 = { 'S', 96, 2500, 10000 };
+
+//건물
+OBJECT Dormitory = { 'D', 9, 10, 2 }; //숙소
+OBJECT Garage = { 'G', 9, 10, 4 }; //창고
+OBJECT Barracks = { 'B', 9, 20, 4 }; //병영
+OBJECT Shelter = { 'S', 9, 30, 5 }; //은신처
+OBJECT Arena = { 'A', 9, 15, 3 }; //투기장
+OBJECT Factory = { 'F', 9, 30, 5 }; //공장
+
+//유닛
+UNIT Fremen = { 'f', 9, 5, 5, 400, 15, 200, 25, 88 }; //프레멘
+UNIT Soldier = { 's', 9, 1, 1, 1000, 5, 800, 15, 1 }; //보병
+UNIT Fighter = { 'f', 4, 1, 1, 1200, 6, 600, 10, 1 }; //투사
+UNIT Tank = { 't', 4, 12, 5, 3000, 40, 4000, 60, 4 }; //중전차
+
+
 //맵 배치
-
-
 void project(char src[N_LAYER][MAP_HEIGHT][MAP_WIDTH], char dest[MAP_HEIGHT][MAP_WIDTH]);
 void display_resource(RESOURCE resource);
 void display_map(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH]);
@@ -225,17 +262,6 @@ void display_map_nemo(char colorbuf[MAP_HEIGHT][MAP_WIDTH]) {
 }
 
 void display_object_info_player(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], OBJECT* player_B, UNIT* player_H, char colorbuf[MAP_HEIGHT][MAP_WIDTH]) { //플레이어
-	//B
-	player_B->object = 'B';
-	player_B->color_num = 17;
-	player_B->blood = 50;
-	player_B->cost = 0;
-
-	//H
-	player_H->object = 'H';
-	player_H->color_num = 9;
-	player_H->blood = 70;
-
 	//위치
 	for (int i = 15; i <= 16; i++) {
 		for (int j = 1; j <= 2; j++) {
@@ -256,17 +282,6 @@ void display_object_info_player(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], OBJECT
 }
 
 void display_object_info_AI(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], OBJECT* AI_B, UNIT* AI_H, char colorbuf[MAP_HEIGHT][MAP_WIDTH]) { //AI
-	//B
-	AI_B->object = 'B';
-	AI_B->color_num = 68;
-	AI_B->blood = 50;
-	AI_B->cost = 0;
-
-	//H
-	AI_H->object = 'H';
-	AI_H->color_num = 4;
-	AI_H->blood = 70;
-
 	//위치
 	for (int i = 1; i <= 2; i++) {
 		for (int j = 57; j <= 58; j++) {
@@ -286,9 +301,6 @@ void display_object_info_AI(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], OBJECT* AI
 }
 
 void display_object_info_Rock(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], ROCK* rock, char colorbuf[MAP_HEIGHT][MAP_WIDTH]) { //돌
-	rock->object = 'R';
-	rock->color_num = 7;
-
 	//위치
 	for (int i = 10; i <= 11; i++) { //돌1
 		for (int j = 30; j <= 31; j++) {
@@ -325,19 +337,6 @@ void display_object_info_Rock(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], ROCK* ro
 }
 
 void display_object_info_Plate(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], OBJECT* plate_1, OBJECT* plate_2, char colorbuf[MAP_HEIGHT][MAP_WIDTH]) { //장판
-	//1
-	plate_1->object = 'P';
-	plate_1->color_num = 8;
-	plate_1->blood = -1;
-	plate_1->cost = 10;
-
-	//2
-	plate_2->object = 'P';
-	plate_2->color_num = 8;
-	plate_2->blood = -1;
-	plate_2->cost = 10;
-
-
 	//위치
 	for (int i = 15; i <= 16; i++) {
 		for (int j = 3; j <= 4; j++) {
@@ -369,13 +368,6 @@ void display_object_info_Plate(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], OBJECT*
 }
 
 void display_object_info_spice(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], SPICE* spice_1, SPICE* spice_2, char colorbuf[MAP_HEIGHT][MAP_WIDTH]) { //스파이스
-	//1
-	spice_1->color_num = 6;
-	spice_1->much = 9;
-	//2
-	spice_2->color_num = 6;
-	spice_2->much = 9;
-
 	//위치
 	map[0][11][1] = spice_1->much + '0';
 	map[0][6][58] = spice_2->much + '0';
@@ -386,13 +378,6 @@ void display_object_info_spice(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], SPICE* 
 }
 
 void display_object_info_sandwarm(char map[N_LAYER][MAP_HEIGHT][MAP_WIDTH], SANDWARM* sandwarm_1, SANDWARM* sandwarm_2, char colorbuf[MAP_HEIGHT][MAP_WIDTH]) { //샌드웜
-	//1
-	sandwarm_1->object = 'S';
-	sandwarm_1->color_num = 96;
-	//2
-	sandwarm_2->object = 'S';
-	sandwarm_2->color_num = 96;
-
 	//위치
 	map[1][4][10] = sandwarm_1->object; //1
 	map[1][9][39] = sandwarm_2->object; //2
